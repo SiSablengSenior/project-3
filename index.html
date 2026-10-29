@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SiSablengSenior Ops Control Center">
+<title>SiSablengSenior Ops — Control Center</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="loginScreen" class="login-screen">
+  <div class="login-art"><div class="brand-mark">SS</div><p class="eyebrow">SISTEM MONITORING & MANAJEMEN DATA NOPOL</p><h1>CONTROL<br><span>CENTER.</span></h1><p>Panel administrasi SiSablengSenior Ops.</p><div class="stripe"></div></div>
+  <form id="loginForm" class="login-card">
+    <div class="brand"><span class="brand-mark small">SS</span><div><b>SiSablengSenior Ops</b><small>SECURE ACCESS PORTAL</small></div></div>
+    <h2>Masuk ke sistem</h2><p class="muted">Gunakan akun administrator Anda.</p>
+    <label>Username<input id="username" autocomplete="username" required value="SiSablengSenior"></label>
+    <label>Password<input id="password" type="password" autocomplete="current-password" required placeholder="Masukkan password"></label>
+    <button class="btn primary full" type="submit">LOGIN <span>↗</span></button>
+    <p id="loginError" class="error"></p>
+    <p class="demo-note">Mode pratinjau: <b>SiSablengSenior / demo12345</b></p>
+  </form>
+</div>
+
+<div id="app" class="app hidden">
+  <aside class="sidebar">
+    <div class="brand side-brand"><span class="brand-mark small">SS</span><div><b>SiSablengSenior</b><small>OPS CONTROL</small></div></div>
+    <nav>
+      <button class="nav-item active" data-page="dashboard">▦ <span>Dashboard</span></button>
+      <button class="nav-item" data-page="control">⌘ <span>Pusat Control</span></button>
+      <button class="nav-item" data-page="settings">⚙ <span>Pengaturan</span></button>
+    </nav>
+    <div class="sidebar-bottom"><div class="api-dot" id="sideApiDot"></div><div><b id="sideApiText">API belum dikonfigurasi</b><small>STATUS KONEKSI</small></div></div>
+    <button id="logoutBtn" class="logout">↪ Keluar</button>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><span class="eyebrow">SISTEM OPERASIONAL</span><h1 id="pageTitle">Dashboard</h1></div><div class="top-actions"><span class="api-pill" id="apiPill">● MODE DEMO</span><div class="user-chip"><div class="avatar">SS</div><span id="headerUser">SiSablengSenior</span></div></div></header>
+    <section id="dashboardPage" class="page">
+      <div class="hero-row">
+        <div class="clock-panel panel"><div class="eyebrow">WAKTU SEKARANG</div><div id="clock" class="clock">00:00:00</div><div id="dateLine" class="date-line">—</div></div>
+        <div class="account-panel panel"><div class="avatar large">SS</div><div><span class="eyebrow">AKUN AKTIF</span><h2 id="accountName">SiSablengSenior</h2><p class="muted">Administrator · Control Center</p></div><span class="status-tag">● AKTIF</span></div>
+      </div>
+      <div class="section-head"><div><span class="eyebrow">RINGKASAN</span><h2>Aktivitas sistem</h2></div><span class="muted" id="summaryDate"></span></div>
+      <div class="stats-grid">
+        <article class="stat-card blue"><span>AKTIVITAS HARI INI</span><b id="todayCount">0</b><small>Catatan hari ini</small></article>
+        <article class="stat-card green"><span>BULAN INI</span><b id="monthCount">0</b><small>Total bulan berjalan</small></article>
+        <article class="stat-card purple"><span>TAHUN INI</span><b id="yearCount">0</b><small>Total tahun berjalan</small></article>
+      </div>
+      <div class="section-head"><div><span class="eyebrow">RINCIAN OPERASI</span><h2>Aktivitas berdasarkan jenis</h2></div></div>
+      <div id="activityGrid" class="activity-grid"></div>
+      <div class="bottom-grid">
+        <div class="panel"><div class="panel-heading"><h3>Aktivitas terbaru</h3><button class="text-btn" data-goto="control">Lihat semua ↗</button></div><div class="table-wrap"><table><thead><tr><th>Waktu</th><th>Operasi</th><th>Data input</th><th>Status</th></tr></thead><tbody id="recentRows"></tbody></table></div></div>
+        <div class="panel connection"><span class="eyebrow">KONEKTIVITAS</span><h3>Status APIKEY</h3><div class="connection-state"><i id="apiLed"></i><b id="apiStatusText">Belum dikonfigurasi</b></div><p id="apiUrlText" class="muted">Tambahkan endpoint dan API Key di pengaturan.</p><button class="btn dark full" data-goto="settings">BUKA PENGATURAN ↗</button></div>
+      </div>
+    </section>
+
+    <section id="controlPage" class="page hidden">
+      <div class="notice"><b>Perhatian:</b> Mode pratinjau menyimpan permintaan secara lokal. Tidak ada perubahan pada sistem pusat. Integrasi produksi memerlukan API resmi dan otorisasi server.</div>
+      <div class="section-head"><div><span class="eyebrow">OPERASIONAL</span><h2>Pilih tindakan</h2></div></div>
+      <div id="actionGrid" class="action-grid"></div>
+      <div class="panel form-panel"><div class="panel-heading"><div><span class="eyebrow">FORMULIR OPERASI</span><h3 id="formTitle">Verifikasi berhasil</h3></div><span class="status-tag">INPUT BARU</span></div>
+        <form id="operationForm" class="operation-form">
+          <input type="hidden" id="operationType" value="verify">
+          <div id="dynamicFields" class="field-grid"></div>
+          <button class="btn primary" type="submit">SUBMIT PERMINTAAN <span>↗</span></button>
+          <p id="formFeedback" class="muted"></p>
+        </form>
+      </div>
+      <div class="panel"><div class="panel-heading"><div><span class="eyebrow">LOG INPUT</span><h3>Status data input</h3></div><input id="tableSearch" class="search" placeholder="Cari nopol / akun..."></div>
+        <div class="table-wrap"><table><thead><tr><th>No</th><th>Nopol / Akun</th><th>Bahan bakar</th><th>Tanggal</th><th>Data diinput</th><th>Status</th></tr></thead><tbody id="allRows"></tbody></table></div>
+      </div>
+    </section>
+
+    <section id="settingsPage" class="page hidden">
+      <div class="section-head"><div><span class="eyebrow">KONFIGURASI</span><h2>Pengaturan sistem</h2></div></div>
+      <div class="settings-grid">
+        <form id="profileForm" class="panel settings-card"><h3>◉ Profil akun</h3><p class="muted">Kelola identitas administrator.</p><label>Username<input id="profileUsername" required></label><label>Password baru<input id="newPassword" type="password" placeholder="Kosongkan jika tidak diubah"></label><label>Foto profil<input id="profilePhoto" type="file" accept="image/*"></label><button class="btn primary" type="submit">SIMPAN PROFIL</button><p id="profileFeedback" class="muted"></p></form>
+        <form id="apiForm" class="panel settings-card"><h3>⌁ Koneksi API</h3><p class="muted">Kredensial disimpan lokal pada mode demo. Jangan gunakan API Key produksi di GitHub Pages.</p><label>API Key<input id="apiKey" type="password" placeholder="Masukkan API Key"></label><label>URL API / Database Gateway<input id="apiUrl" type="url" placeholder="https://api.domain-anda.id"></label><button class="btn primary" type="submit">SIMPAN KONFIGURASI</button><button class="btn outline" id="testApi" type="button">UJI KONEKSI</button><p id="apiFeedback" class="muted"></p></form>
+      </div>
+      <div class="notice warning"><b>Keamanan:</b> URL database langsung bukan endpoint publik. Simpan kredensial database di konfigurasi server PHP, bukan di browser atau repository. Tombol uji koneksi hanya memeriksa endpoint HTTP yang Anda konfigurasi.</div>
+    </section>
+    <footer>SiSablengSenior Ops <span>·</span> Control Center <span>·</span> Preview build</footer>
+  </main>
+</div>
+<div id="welcomeModal" class="modal hidden"><div class="modal-card"><div class="brand-mark">SS</div><span class="eyebrow">AKSES DIBERIKAN</span><h2>Selamat Datang Kembali</h2><h3 id="welcomeName">SiSablengSenior</h3><p class="muted">Semoga hari Anda produktif.</p><button id="startBtn" class="btn primary">MULAI ↗</button></div></div>
+<script src="js/app.js"></script>
+</body></html>
